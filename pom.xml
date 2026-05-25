@@ -11,6 +11,29 @@
 
     <name>Mullatoez Sensitive Logger</name>
     <description>Logging-only sensitive data masking library for Java and Spring Boot</description>
+    <url>https://github.com/mullatoez/mullatoez-sensitive-logger</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>mullatoez</id>
+            <name>Mullatoez</name>
+            <email>mul@me.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/mullatoez/mullatoez-sensitive-logger.git</connection>
+        <developerConnection>scm:git:https://github.com/mullatoez/mullatoez-sensitive-logger.git</developerConnection>
+        <url>https://github.com/mullatoez/mullatoez-sensitive-logger</url>
+    </scm>
 
     <modules>
         <module>mullatoez-sensitive-logger-core</module>
