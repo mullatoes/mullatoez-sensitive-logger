@@ -4,6 +4,11 @@ A logging-only sensitive data masking library for Java 17+ and Spring Boot 3.
 
 It masks fields annotated with `@Sensitive` when, and only when, you explicitly log them through `MullatoezSensitiveLogger`. It does **not** modify your source objects, API responses, DTOs, JSON serialization, or any business logic. Your application keeps working with the real values; only the log output is masked.
 
+- **Group ID:** `io.github.mullatoes`
+- **Latest version:** `1.0.2`
+- **License:** MIT
+- **Source:** https://github.com/mullatoes/mullatoez-sensitive-logger
+
 ---
 
 ## Requirements
@@ -16,26 +21,42 @@ It masks fields annotated with `@Sensitive` when, and only when, you explicitly 
 
 ## Installation
 
-### Maven (Spring Boot)
+The artifacts are published to **Maven Central** and **GitHub Packages**.
+
+### Maven (Spring Boot starter)
 
 ```xml
 <dependency>
-    <groupId>com.mullatoez.security</groupId>
+    <groupId>io.github.mullatoes</groupId>
     <artifactId>mullatoez-sensitive-logger-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
-### Gradle (Spring Boot)
+### Gradle (Spring Boot starter)
+
+Groovy DSL (`build.gradle`):
 
 ```groovy
-implementation 'com.mullatoez.security:mullatoez-sensitive-logger-spring-boot-starter:1.0.0'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.mullatoes:mullatoez-sensitive-logger-spring-boot-starter:1.0.2'
+}
 ```
 
-Kotlin DSL:
+Kotlin DSL (`build.gradle.kts`):
 
 ```kotlin
-implementation("com.mullatoez.security:mullatoez-sensitive-logger-spring-boot-starter:1.0.0")
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.mullatoes:mullatoez-sensitive-logger-spring-boot-starter:1.0.2")
+}
 ```
 
 ### Core only (plain Java, no Spring)
@@ -46,16 +67,61 @@ Maven:
 
 ```xml
 <dependency>
-    <groupId>com.mullatoez.security</groupId>
+    <groupId>io.github.mullatoes</groupId>
     <artifactId>mullatoez-sensitive-logger-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-implementation 'com.mullatoez.security:mullatoez-sensitive-logger-core:1.0.0'
+implementation 'io.github.mullatoes:mullatoez-sensitive-logger-core:1.0.2'
+```
+
+```kotlin
+implementation("io.github.mullatoes:mullatoez-sensitive-logger-core:1.0.2")
+```
+
+### Installing from GitHub Packages (alternative)
+
+GitHub Packages requires authentication, even for public packages. You need a GitHub Personal Access Token with the `read:packages` scope.
+
+**Maven** — add to `~/.m2/settings.xml`:
+
+```xml
+<servers>
+    <server>
+        <id>github-mullatoes</id>
+        <username>YOUR_GITHUB_USERNAME</username>
+        <password>YOUR_GITHUB_TOKEN</password>
+    </server>
+</servers>
+```
+
+Then in your `pom.xml`:
+
+```xml
+<repositories>
+    <repository>
+        <id>github-mullatoes</id>
+        <url>https://maven.pkg.github.com/mullatoes/mullatoez-sensitive-logger</url>
+    </repository>
+</repositories>
+```
+
+**Gradle** — in `build.gradle(.kts)`:
+
+```kotlin
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/mullatoes/mullatoez-sensitive-logger")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
 ```
 
 ---
@@ -78,9 +144,14 @@ public record UserDto(
 ) {}
 ```
 
+> Note: the Maven group ID is `io.github.mullatoes` (with `mullatoes`), but the Java packages are `com.mullatoez.security.logger.core` and `com.mullatoez.security.logger.spring` (with `mullatoez`). Use the latter in your `import` statements.
+
 Works the same way on regular POJO fields:
 
 ```java
+import com.mullatoez.security.logger.core.Sensitive;
+import com.mullatoez.security.logger.core.SensitiveMode;
+
 public class UserDto {
     private String id;
 
@@ -144,7 +215,7 @@ mullatoez:
   sensitive-logger:
     enabled: true              # default: true; if false, mask() returns the raw String.valueOf(source)
     mask-full-by-default: false # default: false (partial); true means @Sensitive defaults to FULL
-    output-json: true          # default: true; if false, output is the map's toString()
+    output-json: true          # default: true; if false, output is the masked map's toString()
 ```
 
 Equivalent `application.properties`:
@@ -166,7 +237,7 @@ mullatoez.sensitive-logger.output-json=true
 
 ### What does **not** trigger masking
 
-- Map keys are **not** used to infer sensitivity. A field is masked only if it carries `@Sensitive`. A `Map<String, String>` entry named `"password"` will not be masked unless it itself is the value of a `@Sensitive` field.
+- Map keys are **not** used to infer sensitivity. A field is masked only if it carries `@Sensitive`. A `Map<String, String>` entry whose key is `"password"` will not be masked unless that map is itself the value of a `@Sensitive` field.
 - Plain `String`/`Number`/etc. passed directly to `mask(...)` are returned as-is (there is no annotation to read).
 
 ### Safety guards
@@ -196,11 +267,24 @@ import com.mullatoez.security.logger.core.SensitiveObjectMasker;
 
 SensitiveObjectMasker masker = new SensitiveObjectMasker();
 Object masked = masker.mask(user, /* maskFull = */ false);
-// Serialize `masked` with your preferred JSON library, or call toString().
+// `masked` is a Map / List / primitive tree. Serialize it with your preferred JSON library,
+// or call toString().
 ```
+
+---
+
+## Building from source
+
+```bash
+git clone https://github.com/mullatoes/mullatoez-sensitive-logger.git
+cd mullatoez-sensitive-logger
+mvn clean verify
+```
+
+Requires JDK 17+. The CI build runs on every push and pull request to `main`.
 
 ---
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE) if present, or https://opensource.org/licenses/MIT.
