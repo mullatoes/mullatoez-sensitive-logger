@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.mullatoez.security</groupId>
+        <groupId>io.github.mullatoes</groupId>
         <artifactId>mullatoez-sensitive-logger</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>mullatoez-sensitive-logger-core</artifactId>
