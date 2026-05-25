@@ -1,0 +1,3 @@
+com/mullatoez/security/logger/spring/MullatoezSensitiveLoggerAutoConfiguration.class
+com/mullatoez/security/logger/spring/MullatoezSensitiveLogger.class
+com/mullatoez/security/logger/spring/MullatoezSensitiveLoggerProperties.class

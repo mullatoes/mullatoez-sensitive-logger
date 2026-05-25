@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.mullatoez.security</groupId>
+    <artifactId>mullatoez-sensitive-logger</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>Mullatoez Sensitive Logger</name>
+    <description>Logging-only sensitive data masking library for Java and Spring Boot</description>
+
+    <modules>
+        <module>mullatoez-sensitive-logger-core</module>
+        <module>mullatoez-sensitive-logger-spring-boot-starter</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <spring.boot.version>3.5.0</spring.boot.version>
+        <jackson.version>2.19.0</jackson.version>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>
